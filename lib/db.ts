@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+import { Pool } from "pg";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -10,8 +10,7 @@ const pool = new Pool({
   connectionString,
 });
 
-async function initDb() {
-  // Create table if not exists
+export async function initDb() {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
@@ -47,14 +46,9 @@ async function initDb() {
   }
 }
 
-function query(text, params) {
+export function query(text: string, params?: any[]) {
   return pool.query(text, params);
 }
 
-module.exports = {
-  pool,
-  query,
-  initDb,
-};
-
+export { pool };
 
